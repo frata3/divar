@@ -1,0 +1,87 @@
+<div class="custom-container">
+  <div class="custom-card">
+    <% if (showBack) { %>
+    <div class="custom-padding">
+      <button class="btn btn-custom" onclick="window.history.back()">
+        بازگشت به دسته‌بندی قبلی
+      </button>
+      <a href="/post/create" class="btn btn-custom">بازگشت به تمام دسته‌بندی ها</a>
+    </div>
+    <% } %>
+    <div class="custom-padding">
+      <% if (!options) { %> <% if (categories && categories.length > 0) { %>
+      <ul class="custom-list">
+        <% categories.forEach(category => { %>
+        <li class="custom-list-item">
+          <a href="?slug=<%=category.slug%>" class="custom-link">
+            <span class="custom-icon ti ti-<%=category.icon%>"></span>
+            <span class="custom-category-name"><%=category.name%></span>
+          </a>
+        </li>
+        <% }) %>
+      </ul>
+      <% } %> <% } else { %>
+      <form action="/post/create" method="post" enctype="multipart/form-data">
+        <!-- <input type="hidden" name="lat" id="custom-lat">
+          <input type="hidden" name="lng" id="custom-lng"> -->
+        <input type="hidden" name="category" id="custom-category" value="<%=category%>"/>
+        <!-- <div class="custom-padding">
+            <label> انتخاب آدرس</label>
+            <div id="custom-map-element" class="custom-map"></div>
+          </div> -->
+        <div class="custom-padding">
+          <label>تصاویر آگهی</label>
+          <input type="file" name="images" multiple class="custom-input" />
+        </div>
+        <div class="custom-padding">
+          <label>عنوان آگهی</label>
+          <input
+            type="text"
+            name="title_post"
+            placeholder="عنوان آگهی"
+            class="custom-input"
+          />
+        </div>
+        <div class="custom-padding">
+          <label>توضیحات آگهی</label>
+          <textarea
+            class="custom-textarea"
+            name="description"
+            placeholder="توضیحات آگهی"
+          ></textarea>
+        </div>
+        <div class="custom-padding">
+          <label>مبلغ با قیمت آگهی جهت نمایش</label>
+          <input
+            type="text"
+            name="amount"
+            placeholder="مبلغ"
+            class="custom-input"
+          />
+        </div>
+        <% options.forEach(option => { %>
+        <div class="custom-padding">
+          <label><%= option.title %><%= option.required ? " * " : "" %></label>
+          <% if (option.type === "array") { %>
+          <select name="<%= option.title %>" class="custom-select">
+            <% option.enum.forEach(item => { %>
+            <option value="<%= item %>"><%= item %></option>
+            <% }) %>
+          </select>
+          <% } else { %>
+          <input
+            type="text"
+            name="<%= option.title %>"
+            class="custom-input"
+            placeholder="<%= option.guide %>"
+          />
+          <% } %>
+        </div>
+        <% }) %>
+
+        <button type="submit" class="btn btn-custom">انتشار آگهی</button>
+      </form>
+      <% } %>
+    </div>
+  </div>
+</div>

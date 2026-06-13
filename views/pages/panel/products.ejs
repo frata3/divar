@@ -1,0 +1,10 @@
+<h2>محصولات سایت</h2>
+<div class="products-container">
+  <% products.forEach(product => { %>
+    <div class="product-card">
+      <h3><%= product.name %></h3>
+      <p>قیمت: <%= product.price %> تومان</p>
+      <p><%= product.description %></p>
+    </div>
+  <% }) %>
+</div>

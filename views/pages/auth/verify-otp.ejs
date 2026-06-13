@@ -1,0 +1,43 @@
+<div class="container">
+  <h2>تایید کد</h2>
+  <% if (typeof errorMessage !== 'undefined') { %>
+    <p style="color: red;"><%= errorMessage %></p>
+  <% } %>
+  <form action="/auth/verify-otp" method="post">
+    <input type="hidden" name="email" value="<%= email %>">
+    <input type="hidden" id="expiresIn" value="<%= expiresIn %>">
+    <div class="input-group">
+      <label for="code">کد تایید</label>
+      <input type="text" id="code" name="code" required>
+    </div>
+    <button type="submit">تایید</button>
+    <p id="timer">درخواست دوباره تا <span id="countdown"></span></p>
+  </form>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const expiresIn = parseInt(document.getElementById('expiresIn').value);
+      const countdownElement = document.getElementById('countdown');
+
+      function updateTimer() {
+        const now = new Date().getTime();
+        const remaining = expiresIn - now;
+
+        if (remaining <= 0) {
+          countdownElement.innerHTML = 'زمان منقضی شده است';
+          return;
+        }
+
+        const minutes = Math.floor(remaining / 1000 / 60);
+        const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+
+        countdownElement.textContent = `${minutes} دقیقه و ${seconds} ثانیه دیگر`;
+      }
+
+      // Update the timer immediately on load
+      updateTimer();
+
+      // Update the timer every second
+      setInterval(updateTimer, 1000);
+    });
+  </script>
+</div>
